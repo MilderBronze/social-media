@@ -10,14 +10,34 @@ export default function FriendRequests() {
                 <Link href={"/"} className="text-blue-500 text-xs" >See all</Link>
             </div>
             {/* user */}
-            <div className="flex items-center justify-center">
-                <div className="">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
                     <Image src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg/" alt="" height={40} width={40} className="h-10 w-10 rounded-full object-cover" />
-                    <span>milder</span>
+                    <span className="font-semibold">milder</span>
                 </div>
-                <div className="">
-                    <Image src="/accept.png" alt="" height={40} width={40} className="h-10 w-10 rounded-full object-cover" />
-                    <Image src="/reject.png" alt="" height={40} width={40} className="h-10 w-10 rounded-full object-cover" />
+                <div className="flex gap-3 justify-end">
+                    <Image src="/accept.png" alt="" height={20} width={20} className="cursor-pointer" />
+                    <Image src="/reject.png" alt="" height={20} width={20} className="cursor-pointer" />
+                </div>
+            </div>
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <Image src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg/" alt="" height={40} width={40} className="h-10 w-10 rounded-full object-cover" />
+                    <span className="font-semibold">milder</span>
+                </div>
+                <div className="flex gap-3 justify-end">
+                    <Image src="/accept.png" alt="" height={20} width={20} className="cursor-pointer" />
+                    <Image src="/reject.png" alt="" height={20} width={20} className="cursor-pointer" />
+                </div>
+            </div>
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <Image src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg/" alt="" height={40} width={40} className="h-10 w-10 rounded-full object-cover" />
+                    <span className="font-semibold">milder</span>
+                </div>
+                <div className="flex gap-3 justify-end">
+                    <Image src="/accept.png" alt="" height={20} width={20} className="cursor-pointer" />
+                    <Image src="/reject.png" alt="" height={20} width={20} className="cursor-pointer" />
                 </div>
             </div>
         </div>
