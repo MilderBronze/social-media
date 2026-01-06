@@ -19,4 +19,5 @@ flex-1 is a Tailwind CSS utility that does:
 - flex-basis: 0% - Starts with 0 width, then expands
 - use flex before flex-col
 
-
+## next js: IMAGE: fill property
+- used when its parent is set to relative so that the image fills with respect to the parent component.
