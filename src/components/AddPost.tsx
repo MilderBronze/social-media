@@ -1,9 +1,7 @@
 import Image from "next/image"
-import prisma from "../../lib/prisma"
 import { auth } from "@clerk/nextjs/server"
 
 export default async function AddPost() {
-    const { userId } = await auth()
 
     return (
         <div className="p-4 bg-white shadow-md rounded-lg flex gap-4 justify-between text-sm">

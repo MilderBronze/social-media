@@ -17,8 +17,8 @@ export async function POST(req: NextRequest) {
                 await prisma.user.create({
                     data: {
                         id: evt.data.id,
-                        username: JSON.parse(evt.object).data.username,
-                        avatar: JSON.parse(evt.object).data.image_url || "/noAvatar.png",
+                        username: evt.data.username ?? "",
+                        avatar: evt.data.image_url ?? "/noAvatar.png",
                         cover: "/noCover.png",
                     }
                 })
@@ -35,8 +35,8 @@ export async function POST(req: NextRequest) {
                         id: evt.data.id
                     },
                     data: {
-                        username: JSON.parse(evt.object).data.username,
-                        avatar: JSON.parse(evt.object).data.image_url || "/noAvatar.png",
+                        username: evt.data.username ?? "",
+                        avatar: evt.data.image_url || "/noAvatar.png",
                     }
                 })
                 return new Response("User has been updated!", { status: 200 })
