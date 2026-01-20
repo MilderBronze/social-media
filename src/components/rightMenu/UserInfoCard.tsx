@@ -109,13 +109,12 @@ export default async function UserInfoCard({ user }: { user: User }) {
                         <span>Joined {formattedDate}</span>
                     </div>
                 </div>
-                <UserInfoCardInteraction
+                {currentUserId && currentUserId !== user.id && <UserInfoCardInteraction
                     userId={user.id}
-                    currentUserId={currentUserId}
                     isUserBlocked={isUserBlocked}
                     isFollowing={isFollowing}
-                    isFollowRequestSent={isFollowRequestSent}
-                />
+                    isFollowingSent={isFollowRequestSent}
+                />}
             </div>
         </div>
     )

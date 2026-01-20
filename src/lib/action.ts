@@ -57,6 +57,7 @@ export const switchFollow = async (userId: string) => {
         console.error(error)
     }
 }
+
 export const switchBlock = async (userId: string) => {
     const { userId: currentUserId } = await auth();
     if (!currentUserId) {
@@ -86,7 +87,7 @@ export const switchBlock = async (userId: string) => {
             })
         }
     } catch (error) {
-
+        console.error(error);
+        throw new Error("Something went wrong");
     }
-
 }
