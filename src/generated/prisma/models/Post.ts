@@ -40,6 +40,7 @@ export type PostMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   userId: string | null
+  img: string | null
 }
 
 export type PostMaxAggregateOutputType = {
@@ -48,6 +49,7 @@ export type PostMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   userId: string | null
+  img: string | null
 }
 
 export type PostCountAggregateOutputType = {
@@ -56,6 +58,7 @@ export type PostCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   userId: number
+  img: number
   _all: number
 }
 
@@ -74,6 +77,7 @@ export type PostMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   userId?: true
+  img?: true
 }
 
 export type PostMaxAggregateInputType = {
@@ -82,6 +86,7 @@ export type PostMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   userId?: true
+  img?: true
 }
 
 export type PostCountAggregateInputType = {
@@ -90,6 +95,7 @@ export type PostCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   userId?: true
+  img?: true
   _all?: true
 }
 
@@ -185,6 +191,7 @@ export type PostGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   userId: string
+  img: string | null
   _count: PostCountAggregateOutputType | null
   _avg: PostAvgAggregateOutputType | null
   _sum: PostSumAggregateOutputType | null
@@ -216,6 +223,7 @@ export type PostWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   userId?: Prisma.StringFilter<"Post"> | string
+  img?: Prisma.StringNullableFilter<"Post"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   likes?: Prisma.LikeListRelationFilter
   comments?: Prisma.CommentListRelationFilter
@@ -227,6 +235,7 @@ export type PostOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  img?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   likes?: Prisma.LikeOrderByRelationAggregateInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
@@ -241,6 +250,7 @@ export type PostWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   userId?: Prisma.StringFilter<"Post"> | string
+  img?: Prisma.StringNullableFilter<"Post"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   likes?: Prisma.LikeListRelationFilter
   comments?: Prisma.CommentListRelationFilter
@@ -252,6 +262,7 @@ export type PostOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  img?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PostCountOrderByAggregateInput
   _avg?: Prisma.PostAvgOrderByAggregateInput
   _max?: Prisma.PostMaxOrderByAggregateInput
@@ -268,12 +279,14 @@ export type PostScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Post"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Post"> | Date | string
   userId?: Prisma.StringWithAggregatesFilter<"Post"> | string
+  img?: Prisma.StringNullableWithAggregatesFilter<"Post"> | string | null
 }
 
 export type PostCreateInput = {
   desc: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  img?: string | null
   user: Prisma.UserCreateNestedOneWithoutPostsInput
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
@@ -285,6 +298,7 @@ export type PostUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
+  img?: string | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
 }
@@ -293,6 +307,7 @@ export type PostUpdateInput = {
   desc?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  img?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
@@ -304,6 +319,7 @@ export type PostUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  img?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
 }
@@ -314,12 +330,14 @@ export type PostCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
+  img?: string | null
 }
 
 export type PostUpdateManyMutationInput = {
   desc?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  img?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PostUncheckedUpdateManyInput = {
@@ -328,6 +346,7 @@ export type PostUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  img?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PostListRelationFilter = {
@@ -346,6 +365,7 @@ export type PostCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  img?: Prisma.SortOrder
 }
 
 export type PostAvgOrderByAggregateInput = {
@@ -358,6 +378,7 @@ export type PostMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  img?: Prisma.SortOrder
 }
 
 export type PostMinOrderByAggregateInput = {
@@ -366,6 +387,7 @@ export type PostMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  img?: Prisma.SortOrder
 }
 
 export type PostSumOrderByAggregateInput = {
@@ -466,6 +488,7 @@ export type PostCreateWithoutUserInput = {
   desc: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  img?: string | null
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
 }
@@ -475,6 +498,7 @@ export type PostUncheckedCreateWithoutUserInput = {
   desc: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  img?: string | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
 }
@@ -514,12 +538,14 @@ export type PostScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   userId?: Prisma.StringFilter<"Post"> | string
+  img?: Prisma.StringNullableFilter<"Post"> | string | null
 }
 
 export type PostCreateWithoutCommentsInput = {
   desc: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  img?: string | null
   user: Prisma.UserCreateNestedOneWithoutPostsInput
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
 }
@@ -530,6 +556,7 @@ export type PostUncheckedCreateWithoutCommentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
+  img?: string | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
 }
 
@@ -553,6 +580,7 @@ export type PostUpdateWithoutCommentsInput = {
   desc?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  img?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
 }
@@ -563,6 +591,7 @@ export type PostUncheckedUpdateWithoutCommentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  img?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
 }
 
@@ -570,6 +599,7 @@ export type PostCreateWithoutLikesInput = {
   desc: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  img?: string | null
   user: Prisma.UserCreateNestedOneWithoutPostsInput
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
 }
@@ -580,6 +610,7 @@ export type PostUncheckedCreateWithoutLikesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
+  img?: string | null
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
 }
 
@@ -603,6 +634,7 @@ export type PostUpdateWithoutLikesInput = {
   desc?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  img?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
 }
@@ -613,6 +645,7 @@ export type PostUncheckedUpdateWithoutLikesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  img?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
 }
 
@@ -621,12 +654,14 @@ export type PostCreateManyUserInput = {
   desc: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  img?: string | null
 }
 
 export type PostUpdateWithoutUserInput = {
   desc?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  img?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
 }
@@ -636,6 +671,7 @@ export type PostUncheckedUpdateWithoutUserInput = {
   desc?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  img?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
 }
@@ -645,6 +681,7 @@ export type PostUncheckedUpdateManyWithoutUserInput = {
   desc?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  img?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -693,6 +730,7 @@ export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  img?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   likes?: boolean | Prisma.Post$likesArgs<ExtArgs>
   comments?: boolean | Prisma.Post$commentsArgs<ExtArgs>
@@ -705,6 +743,7 @@ export type PostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  img?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post"]>
 
@@ -714,6 +753,7 @@ export type PostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  img?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post"]>
 
@@ -723,9 +763,10 @@ export type PostSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  img?: boolean
 }
 
-export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "desc" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["post"]>
+export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "desc" | "createdAt" | "updatedAt" | "userId" | "img", ExtArgs["result"]["post"]>
 export type PostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   likes?: boolean | Prisma.Post$likesArgs<ExtArgs>
@@ -752,6 +793,7 @@ export type $PostPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdAt: Date
     updatedAt: Date
     userId: string
+    img: string | null
   }, ExtArgs["result"]["post"]>
   composites: {}
 }
@@ -1183,6 +1225,7 @@ export interface PostFieldRefs {
   readonly createdAt: Prisma.FieldRef<"Post", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Post", 'DateTime'>
   readonly userId: Prisma.FieldRef<"Post", 'String'>
+  readonly img: Prisma.FieldRef<"Post", 'String'>
 }
     
 

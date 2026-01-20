@@ -1,75 +1,83 @@
-"use client"
+"use client";
 
-import { switchFollow } from "@/lib/action"
-import { useOptimistic, useState } from "react"
+import { switchBlock, switchFollow } from "@/lib/action";
+import { useOptimistic, useState } from "react";
 
-function UserInfoCardInteraction(
-    {
-        userId,
-        currentUserId,
-        isUserBlocked,
-        isFollowing,
-        isFollowRequestSent
-    }: {
-        userId: string,
-        currentUserId: string,
-        isUserBlocked: boolean,
-        isFollowing: boolean,
-        isFollowRequestSent: boolean
-    }) {
-
+const UserInfoCardInteraction = ({
+    userId,
+    isUserBlocked,
+    isFollowing,
+    isFollowingSent,
+}: {
+    userId: string;
+    isUserBlocked: boolean;
+    isFollowing: boolean;
+    isFollowingSent: boolean;
+}) => {
     const [userState, setUserState] = useState({
-        blocked: isUserBlocked,
         following: isFollowing,
-        followingRequestSent: isFollowRequestSent,
-    })
+        blocked: isUserBlocked,
+        followingRequestSent: isFollowingSent,
+    });
 
     const follow = async () => {
-        switchOptimisticFollow(
-            {
-                isUserBlocked,
-                isFollowing: !isFollowing,
-                followingRequestSent: !isFollowRequestSent
-            }
-        )
+        switchOptimisticState("follow");
         try {
             await switchFollow(userId);
-
-            setUserState(prev => ({
+            setUserState((prev) => ({
                 ...prev,
-                isFollowing: isFollowing && false,
-                followingRequestSent: !prev.following && !prev.followingRequestSent ? true : false
-            }))
-        } catch (error) {
-            console.error(error)
+                following: prev.following && false,
+                followingRequestSent:
+                    !prev.following && !prev.followingRequestSent ? true : false,
+            }));
+        } catch (err) {
+            console.error(err)
         }
     };
 
-    const [optimisticFollow, switchOptimisticFollow] = useOptimistic(
-        userState,
-        (state, newValue) => ({
-            ...state,
-            isFollowing: isFollowing && false,
-            followingRequestSent: !state.following && !state.followingRequestSent ? true : false
-        })
-    )
+    const block = async () => {
+        switchOptimisticState("block");
+        try {
+            await switchBlock(userId);
+            setUserState((prev) => ({
+                ...prev,
+                blocked: !prev.blocked,
+            }));
+        } catch (err) { }
+    };
 
+    const [optimisticState, switchOptimisticState] = useOptimistic(
+        userState,
+        (state, value: "follow" | "block") =>
+            value === "follow"
+                ? {
+                    ...state,
+                    following: state.following && false,
+                    followingRequestSent:
+                        !state.following && !state.followingRequestSent ? true : false,
+                }
+                : { ...state, blocked: !state.blocked }
+    );
     return (
         <>
             <form action={follow}>
                 <button className="w-full bg-blue-500 text-white text-sm rounded-md p-2">
-                    {
-                        optimisticFollow.followingRequestSent
-                            ? "Request Sent"
-                            : (optimisticFollow.following ? "Following" : "Follow")
-                    }
+                    {optimisticState.following
+                        ? "Following"
+                        : optimisticState.followingRequestSent
+                            ? "Friend Request Sent"
+                            : "Follow"}
                 </button>
             </form>
-            <form action="" className="self-end">
-                <span className="text-red-400 text-xs cursor-pointer">{optimisticFollow.blocked ? "Unblock user" : "Block"}</span>
+            <form action={block} className="self-end ">
+                <button>
+                    <span className="text-red-400 text-xs cursor-pointer">
+                        {optimisticState.blocked ? "Unblock User" : "Block User"}
+                    </span>
+                </button>
             </form>
         </>
-    )
-}
+    );
+};
 
-export default UserInfoCardInteraction
+export default UserInfoCardInteraction;

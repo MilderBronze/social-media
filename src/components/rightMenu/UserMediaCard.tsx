@@ -1,8 +1,24 @@
 import { User } from "@/generated/prisma/client"
 import Image from "next/image"
 import Link from "next/link"
+import prisma from "../../../lib/prisma"
 
-export default function UserMediaCard({ user }: { user: User }) {
+export default async function UserMediaCard({ user }: { user: User }) {
+
+    const postsWithMedia = await prisma.post.findMany({
+        where: {
+            userId: user.id,
+            img: {
+                not: null
+            }
+        },
+        take: 8,
+        orderBy: {
+            createdAt: "desc"
+        }
+    })
+
+
     return (
         <div className="p-4 bg-white rounded-lg shadow-md text-sm flex flex-col gap-4">
             {/* top */}
@@ -14,78 +30,20 @@ export default function UserMediaCard({ user }: { user: User }) {
             </div>
             {/* bottom */}
             <div className="flex gap-4 justify-between flex-wrap">
-                <div className="relative w-1/5 h-24">
-                    <Image
-                        src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg"
-
-                        alt=""
-                        fill
-                        className="object-cover rounded-md"
-                    />
-                </div>
-                <div className="relative w-1/5 h-24">
-                    <Image
-                        src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg"
-
-                        alt=""
-                        fill
-                        className="object-cover rounded-md"
-                    />
-                </div>
-                <div className="relative w-1/5 h-24">
-                    <Image
-                        src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg"
-
-                        alt=""
-                        fill
-                        className="object-cover rounded-md"
-                    />
-                </div>
-                <div className="relative w-1/5 h-24">
-                    <Image
-                        src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg"
-
-                        alt=""
-                        fill
-                        className="object-cover rounded-md"
-                    />
-                </div>
-                <div className="relative w-1/5 h-24">
-                    <Image
-                        src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg"
-
-                        alt=""
-                        fill
-                        className="object-cover rounded-md"
-                    />
-                </div>
-                <div className="relative w-1/5 h-24">
-                    <Image
-                        src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg"
-
-                        alt=""
-                        fill
-                        className="object-cover rounded-md"
-                    />
-                </div>
-                <div className="relative w-1/5 h-24">
-                    <Image
-                        src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg"
-
-                        alt=""
-                        fill
-                        className="object-cover rounded-md"
-                    />
-                </div>
-                <div className="relative w-1/5 h-24">
-                    <Image
-                        src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg"
-
-                        alt=""
-                        fill
-                        className="object-cover rounded-md"
-                    />
-                </div>
+                { postsWithMedia.length ? 
+                    postsWithMedia.map((post) => {
+                        return (
+                            <div key={post.id} className="relative w-1/5 h-24">
+                                {/* <Image
+                                    src={post}
+                                    alt=""
+                                    fill
+                                    className="object-cover rounded-md"
+                                /> */}
+                            </div>
+                        )
+                    }) : ("no media found")
+                }
             </div>
         </div>
     )

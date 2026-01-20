@@ -41,6 +41,7 @@ model Post {
   userId    String
   likes     Like[]
   comments  Comment[]
+  img       String?
 }
 
 model Comment {
