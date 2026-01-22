@@ -1,7 +1,24 @@
 import Link from "next/link";
 import Image from "next/image";
+import { auth } from "@clerk/nextjs/server";
+import prisma from "../../../lib/prisma";
+import FriendRequestList from "./FriendRequestList";
 
-export default function FriendRequests() {
+export default async function FriendRequests() {
+
+    const { userId } = await auth();
+    if (!userId) {
+        return null;
+    }
+    const requests = await prisma.followRequest.findMany({
+        where: {
+            receiverId: userId
+        },
+        include: {
+            sender: true // inside our schema for follow request, we have sender using which we can retrieve all our information like profile pic in the follow request section
+        }
+    })
+    if (requests.length === 0) return null;
     return (
         <div className="p-4 bg-white rounded-lg shadow-md text-sm flex flex-col gap-4">
             {/* top */}
@@ -10,36 +27,9 @@ export default function FriendRequests() {
                 <Link href={"/"} className="text-blue-500 text-xs" >See all</Link>
             </div>
             {/* user */}
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                    <Image src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg/" alt="" height={40} width={40} className="h-10 w-10 rounded-full object-cover" />
-                    <span className="font-semibold">milder</span>
-                </div>
-                <div className="flex gap-3 justify-end">
-                    <Image src="/accept.png" alt="" height={20} width={20} className="cursor-pointer" />
-                    <Image src="/reject.png" alt="" height={20} width={20} className="cursor-pointer" />
-                </div>
-            </div>
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                    <Image src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg/" alt="" height={40} width={40} className="h-10 w-10 rounded-full object-cover" />
-                    <span className="font-semibold">milder</span>
-                </div>
-                <div className="flex gap-3 justify-end">
-                    <Image src="/accept.png" alt="" height={20} width={20} className="cursor-pointer" />
-                    <Image src="/reject.png" alt="" height={20} width={20} className="cursor-pointer" />
-                </div>
-            </div>
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                    <Image src="https://images.pexels.com/photos/34955547/pexels-photo-34955547.jpeg/" alt="" height={40} width={40} className="h-10 w-10 rounded-full object-cover" />
-                    <span className="font-semibold">milder</span>
-                </div>
-                <div className="flex gap-3 justify-end">
-                    <Image src="/accept.png" alt="" height={20} width={20} className="cursor-pointer" />
-                    <Image src="/reject.png" alt="" height={20} width={20} className="cursor-pointer" />
-                </div>
-            </div>
+            <FriendRequestList requests={requests}/>
         </div>
     )
 }
+
+// making network calls in this component is not good. for separation of concerns, moving the api calls to a new component called as FriendRequestList.tsx. This component shall live as a server component.

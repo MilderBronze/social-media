@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import prisma from "../../../lib/prisma";
 import UserInfoCardInteraction from "./UserInfoCardInteraction";
+import { UpdateUser } from "./UpdateUser";
 
 export default async function UserInfoCard({ user }: { user: User }) {
 
@@ -56,9 +57,7 @@ export default async function UserInfoCard({ user }: { user: User }) {
             {/* top */}
             <div className="flex justify-between items-center font-medium">
                 <span className="text-gray-500">User Information</span>
-                <Link href={"/"} className="text-blue-500 text-xs" >
-                    See all
-                </Link>
+                {currentUserId === user.id ? (<UpdateUser user={user}/>) : (<Link href='/' className='text-blue-500 text-xs'>See all</Link>)}
             </div>
             {/* bottom */}
             <div className="flex flex-col gap-4 text-gray-500">
@@ -116,6 +115,6 @@ export default async function UserInfoCard({ user }: { user: User }) {
                     isFollowingSent={isFollowRequestSent}
                 />}
             </div>
-        </div>
+        </div >
     )
 }
