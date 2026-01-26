@@ -4,13 +4,18 @@ import Image from "next/image";
 import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 import { User } from "@/generated/prisma/client";
+import { updateProfile } from "@/lib/action";
+import { CldUploadWidget } from "next-cloudinary";
+import UpdateButton from "./UpdateButton";
 
 const UpdateUser = ({ user }: { user: User }) => {
   const [open, setOpen] = useState(false);
   const [cover, setCover] = useState<any>(false);
 
-  const [state, formAction] = useActionState(updateProfile, { success: false, error: false });
+  const [state, formAction] = useActionState(updateProfile, { success: false, error: false })
+  // useactionstate hook helps communicate with server actions. So, we first create an initial state. At the beginning, success or error will be false. We will send those states to actions and then update them in our function.
 
+  // above updateProfile is the server action, the second param is the init state.
   const router = useRouter();
 
   const handleClose = () => {

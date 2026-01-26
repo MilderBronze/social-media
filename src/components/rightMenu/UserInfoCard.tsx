@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import prisma from "../../../lib/prisma";
 import UserInfoCardInteraction from "./UserInfoCardInteraction";
-import { UpdateUser } from "./UpdateUser";
+import UpdateUser from "./UpdateUser";
 
 export default async function UserInfoCard({ user }: { user: User }) {
 
