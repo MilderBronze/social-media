@@ -56,7 +56,7 @@ const Feed = async ({ username }: { username?: string }) => {
                 user: true,
                 likes: {
                     select: {
-                        userId: true,
+                        userId: true, // agar directly user: true ki tarah likes: true kr dete toh sara information aa jata uss table ke sare rows ka.. isliye sirf userId select krke laa rhe hai because just vhi needed hai.
                     },
                 },
                 _count: {
@@ -66,7 +66,7 @@ const Feed = async ({ username }: { username?: string }) => {
                 },
             },
             orderBy: {
-                createdAt: "desc",
+                createdAt: "desc", // latest posts pehle dekhne ke liye descending order.
             },
         });
     }

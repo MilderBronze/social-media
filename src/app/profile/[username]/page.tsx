@@ -7,7 +7,7 @@ import LeftMenu from "@/components/leftMenu/LeftMenu";
 import Feed from "@/components/feed/Feed";
 
 export default async function ProfilePage({ params }: { params: { username: string } }) {
-    const username = params.username // folder name was [username] toh yaha bhi username extract kro. 
+    const { username } = await params; // folder name was [username] toh yaha bhi username extract kro. 
     const user = await prisma.user.findFirst({
         where: {
             username
