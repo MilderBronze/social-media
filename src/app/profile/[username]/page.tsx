@@ -6,7 +6,7 @@ import { auth } from "@clerk/nextjs/server";
 import LeftMenu from "@/components/leftMenu/LeftMenu";
 import Feed from "@/components/feed/Feed";
 
-export default async function ProfilePage({ params }: { params: { username: string } }) {
+export default async function ProfilePage({ params }: { params: Promise<{ username: string }> }) {
     const { username } = await params; // folder name was [username] toh yaha bhi username extract kro. 
     const user = await prisma.user.findFirst({
         where: {
