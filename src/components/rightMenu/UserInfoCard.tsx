@@ -50,7 +50,7 @@ export default async function UserInfoCard({ user }: { user: User }) {
             receiverId: userIdFromPathUrl
         }
     })
-    isUserBlocked = followRequestRes ? true : false;
+    isFollowRequestSent = followRequestRes ? true : false;
 
     return (
         <div className="p-4 bg-white rounded-lg shadow-md text-sm flex flex-col gap-4">

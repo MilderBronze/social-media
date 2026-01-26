@@ -3,7 +3,7 @@
 import { switchLike } from "@/lib/action";
 import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
-import { useOptimistic, useState } from "react";
+import { useOptimistic, useState, useEffect } from "react";
 
 const PostInteraction = ({
   postId,
@@ -14,7 +14,7 @@ const PostInteraction = ({
   likes: string[];
   commentNumber: number;
 }) => {
-  const { isLoaded, userId } = useAuth();
+  const { isLoaded, userId } = useAuth(); // I CANT USE await Auth() because await needs an async function and this is a client component. no async methods within a client component.
   const [likeState, setLikeState] = useState({
     likeCount: likes.length,
     isLiked: userId ? likes.includes(userId) : false,
@@ -30,15 +30,25 @@ const PostInteraction = ({
     }
   );
 
+  // Sync likeState when the likes prop changes (from server revalidation)
+  useEffect(() => {
+    setLikeState({
+      likeCount: likes.length,
+      isLiked: userId ? likes.includes(userId) : false,
+    });
+  }, [likes, userId]);
+
   const likeAction = async () => {
     switchOptimisticLike("");
     try {
-      switchLike(postId);
-      setLikeState((state) => ({
-        likeCount: state.isLiked ? state.likeCount - 1 : state.likeCount + 1,
-        isLiked: !state.isLiked,
-      }));
-    } catch (err) {}
+      console.log("Like action called for postId:", postId);
+      await switchLike(postId);
+      console.log("Like action completed");
+      // Don't update likeState here - let the server-side revalidation handle it
+      // The optimistic state already updated the UI instantly
+    } catch (err) {
+      console.error("Like action error:", err);
+    }
   };
   return (
     <div className="flex items-center justify-between text-sm my-4">

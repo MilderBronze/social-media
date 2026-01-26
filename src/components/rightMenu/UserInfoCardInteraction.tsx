@@ -24,9 +24,10 @@ const UserInfoCardInteraction = ({
         switchOptimisticState("follow");
         try {
             await switchFollow(userId);
+            // After server action completes, update state
             setUserState((prev) => ({
                 ...prev,
-                following: prev.following && false,
+                following: prev.following ? false : prev.following,
                 followingRequestSent:
                     !prev.following && !prev.followingRequestSent ? true : false,
             }));

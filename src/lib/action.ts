@@ -13,7 +13,26 @@ export const switchFollow = async (userId: string) => {
     if (!currentUserId) {
         throw new Error("User is not authenticated")
     }
+
+    console.log("Follow attempt - currentUserId:", currentUserId, "targetUserId:", userId);
+
     try {
+        // Check if both users exist in database
+        const currentUserExists = await prisma.user.findUnique({
+            where: { id: currentUserId }
+        });
+
+        const targetUserExists = await prisma.user.findUnique({
+            where: { id: userId }
+        });
+
+        if (!currentUserExists) {
+            throw new Error(`Current user ${currentUserId} does not exist in database`);
+        }
+        if (!targetUserExists) {
+            throw new Error(`Target user ${userId} does not exist in database`);
+        }
+
         const existingFollow = await prisma.follower.findFirst({
             where: {
                 followerId: currentUserId,
@@ -55,8 +74,10 @@ export const switchFollow = async (userId: string) => {
             }
 
         }
+        revalidatePath("/");
     } catch (error) {
-        console.error(error)
+        console.error("switchFollow error:", error);
+        throw error;
     }
 }
 
@@ -89,8 +110,8 @@ export const switchBlock = async (userId: string) => {
             })
         }
     } catch (error) {
-        console.error(error);
-        throw new Error("Something went wrong");
+        console.error("switchBlock error:", error);
+        throw error;
     }
 }
 
@@ -122,9 +143,10 @@ export const acceptFollowRequest = async (userId: string) => {
                 }
             })
         }
+        revalidatePath("/");
     } catch (error) {
-        console.error(error);
-        throw new Error("something went wrong")
+        console.error("acceptFollowRequest error:", error);
+        throw error;
     }
 
 }
@@ -150,9 +172,10 @@ export const declineFollowRequest = async (userId: string) => {
                 }
             })
         }
+        revalidatePath("/");
     } catch (error) {
-        console.error(error);
-        throw new Error("something went wrong")
+        console.error("declineFollowRequest error:", error);
+        throw error;
     }
 }
 
@@ -210,6 +233,8 @@ export const switchLike = async (postId: number) => {
 
     if (!userId) throw new Error("User is not authenticated!");
 
+    console.log("switchLike called - userId:", userId, "postId:", postId);
+
     try {
         const existingLike = await prisma.like.findFirst({
             where: {
@@ -218,23 +243,29 @@ export const switchLike = async (postId: number) => {
             },
         });
 
+        console.log("Existing like found:", existingLike);
+
         if (existingLike) {
             await prisma.like.delete({
                 where: {
                     id: existingLike.id,
                 },
             });
+            console.log("Like deleted");
         } else {
-            await prisma.like.create({
+            const createdLike = await prisma.like.create({
                 data: {
                     postId,
                     userId,
                 },
             });
+            console.log("Like created:", createdLike);
         }
+        revalidatePath("/");
+        console.log("Path revalidated");
     } catch (err) {
-        console.log(err);
-        throw new Error("Something went wrong");
+        console.error("switchLike error:", err);
+        throw err;
     }
 };
 

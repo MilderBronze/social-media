@@ -14,7 +14,7 @@ const CommentList = ({
     comments: CommentWithUser[];
     postId: number;
 }) => {
-    const { user } = useUser();
+    const { user } = useUser(); // useUser hook helps get user details but inside of a client component
     const [commentState, setCommentState] = useState(comments);
     const [desc, setDesc] = useState("");
 

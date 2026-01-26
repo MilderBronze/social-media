@@ -22,9 +22,10 @@ export async function POST(req: NextRequest) {
                         cover: "/noCover.png",
                     }
                 })
+                console.log(`User ${evt.data.id} created successfully`)
                 return new Response("User has been created!", { status: 200 })
             } catch (error) {
-                console.error(error);
+                console.error("Error creating user:", error);
                 return new Response("Failed to create the user!", { status: 500 })
             }
         }
@@ -39,10 +40,25 @@ export async function POST(req: NextRequest) {
                         avatar: evt.data.image_url || "/noAvatar.png",
                     }
                 })
+                console.log(`User ${evt.data.id} updated successfully`)
                 return new Response("User has been updated!", { status: 200 })
             } catch (error) {
-                console.error(error);
+                console.error("Error updating user:", error);
                 return new Response("Failed to update the user!", { status: 500 })
+            }
+        }
+        if (eventType == "user.deleted") {
+            try {
+                await prisma.user.delete({
+                    where: {
+                        id: evt.data.id
+                    }
+                })
+                console.log(`User ${evt.data.id} deleted successfully`)
+                return new Response("User has been deleted!", { status: 200 })
+            } catch (error) {
+                console.error("Error deleting user:", error);
+                return new Response("Failed to delete the user!", { status: 500 })
             }
         }
 
